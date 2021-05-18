@@ -1,0 +1,24 @@
+docker exec -ti postgresql bash
+
+psql -U postgres
+
+create database report;
+
+create user root with encrypted password 'Thaovy24';
+
+grant all privileges on database report to root;
+
+\c report;
+
+CREATE TABLE datareporting (
+	commitid VARCHAR PRIMARY KEY,
+	date TIMESTAMP,
+	status VARCHAR,
+	zap_baseline VARCHAR,
+	zap_quickscan VARCHAR,
+	sonarqube VARCHAR,
+	trivy VARCHAR,
+	gitleaks VARCHAR
+);
+
+grant all privileges on table datareporting to root;

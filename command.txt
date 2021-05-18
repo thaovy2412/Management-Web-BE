@@ -1,0 +1,10 @@
+1. Path file report: /home/reports/[commitID]-[tool_name].xml|json 
+ * tool_name: trivy, gitleaks, zap-quickscan, zap-baseline, sonarqube
+
+2. Request khởi tạo: http://localhost:3000/api/commit?id=...&check=start 
+
+3. Request kết thúc: http://localhost:3000/api/commit?id=...&check=end 
+
+4. Request cập nhật trạng thái: http://localhost:3000/api/commit?id=...&tool=...&status=...
+* tool: trivy, gitleaks, zap-quickscan, zap-baseline, sonarqube
+* status: pass, fail, skip, running
