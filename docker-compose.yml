@@ -2,6 +2,7 @@ version: "3"
 
 services:
   nodeapp:
+    image: ttv2412/management_web_be
     build: .
     env_file: ./.env
     environment:
