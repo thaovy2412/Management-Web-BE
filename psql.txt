@@ -10,8 +10,10 @@ grant all privileges on database report to root;
 
 \c report;
 
+TẠO BẢNG LƯU TRẠNG THÁI COMMIT
 CREATE TABLE datareporting (
 	commitid VARCHAR PRIMARY KEY,
+	repo VARCHAR,
 	date TIMESTAMP,
 	status VARCHAR,
 	zap_baseline VARCHAR,
@@ -20,5 +22,13 @@ CREATE TABLE datareporting (
 	trivy VARCHAR,
 	gitleaks VARCHAR
 );
-
 grant all privileges on table datareporting to root;
+
+TẠO BẢNG LƯU TÀI KHOẢN
+CREATE TABLE users (username VARCHAR PRIMARY KEY, password VARCHAR);
+grant all privileges on table users to root;
+
+TẠO SẴN MỘT VÀI TÀI KHOẢN (PASSWORD ĐÃ ĐƯỢC HASH)
+insert into users values ('user1', '$2y$12$YUYdtwHTZnqKLw6s.BJ4FuFnuAJtsie4AlgYaCrDzCnBZhbYnglUG'); (PASSWORD: user1@12345678)
+insert into users values ('user2', '$2y$12$V4hRjB4x99ix91B74Gm1W.kT.SFYKGmCb/.yj86bB7rM2eTx7mxUi');	(PASSWORD: user2@12345678)
+insert into users values ('user3', '$2y$12$3la7SVNVOwkc2OCIBQ2/S.1quWAcNLh/7bzFNc7P9ZFtQ9daoxjTu');	(PASSWORD: user3@12345678)

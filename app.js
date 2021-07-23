@@ -7,10 +7,11 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 const { request } = require("http");
 const { response } = require("express");
-
+const bcrypt = require('bcryptjs');
 
 require("dotenv").config();
 const { DB_HOST } = process.env;
@@ -42,7 +43,7 @@ app.get("/api/commit", (request, response) => {
                     console.log('Connected to the database');
                 }
                 pgcon.query(
-                    `INSERT INTO datareporting (commitid,date,status,zap_baseline,zap_quickscan,sonarqube,trivy,gitleaks) VALUES ('${request.query.id}','${dateClone}','running','running','running','running','running','running')`,
+                    `INSERT INTO datareporting (commitid,repo,date,status,zap_baseline,zap_quickscan,sonarqube,trivy,gitleaks) VALUES ('${request.query.id}','${request.query.repo}','${dateClone}','running','running','running','running','running','running')`,
                     (err, res) => {
                         if (err) {
                             console.log('Error SQL: ', err.message);
@@ -208,4 +209,20 @@ app.get("/chart", (request, response) => {
     });
 })
 
+app.post('/users/login', (request, response) => {
+    pgcon.connect((error) => {
+        pgcon.query('SELECT * FROM users WHERE username = $1', [request.body.username], (err, res) => {
+            if (err) {
+                response.send(err.message);
+            } else {
+                const isMatch = bcrypt.compareSync(request.body.password, res.rows[0].password);
+                if (isMatch) {
+                    response.status(200).send(res.rows[0]);
+                } else {
+                    response.sendStatus(404);
+                }
+            }
+        });
+    });
+})
 app.listen(PORT);

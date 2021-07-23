@@ -10,3 +10,4 @@ RUN mkdir /home/reports
 ADD shell.sh /usr/local/bin/shell.sh
 RUN chmod 777 /usr/local/bin/shell.sh
 CMD ["/usr/local/bin/shell.sh"]
+# CMD ["/bin/bash", "-c", "while !</dev/tcp/$DB_HOST/$DB_PORT;do sleep 1;done; npm start"]
